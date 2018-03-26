@@ -1,3 +1,0 @@
-[submodule "incubator-mxnet"]
-	path = incubator-mxnet
-	url = https://github.com/apache/incubator-mxnet
