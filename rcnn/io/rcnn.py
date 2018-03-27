@@ -244,7 +244,7 @@ def sample_rois(rois, fg_rois_per_image, rois_per_image, num_classes,
 
     bbox_targets, bbox_weights = \
         expand_bbox_regression_targets(bbox_target_data, num_classes)
-    
+
     if mask_targets is not None:
         return rois, labels, bbox_targets, bbox_weights, mask_targets, mask_weights
     else:
@@ -285,7 +285,7 @@ def sample_rois_fpn(rois, assign_levels, fg_rois_per_image, rois_per_image, num_
     fg_rois_per_this_image = np.minimum(fg_rois_per_image, fg_indexes.size)
 
     if DEBUG:
-        print 'fg total num:', len(fg_indexes)
+        print ('fg total num:', len(fg_indexes))
 
     # Sample foreground regions without replacement
     if len(fg_indexes) > fg_rois_per_this_image:
@@ -294,7 +294,7 @@ def sample_rois_fpn(rois, assign_levels, fg_rois_per_image, rois_per_image, num_
     # Select background RoIs as those within [BG_THRESH_LO, BG_THRESH_HI)
     bg_indexes = np.where((overlaps < config.TRAIN.BG_THRESH_HI) & (overlaps >= config.TRAIN.BG_THRESH_LO))[0]
     if DEBUG:
-        print 'bg total num:', len(bg_indexes)
+        print ('bg total num:', len(bg_indexes))
     # Compute number of background RoIs to take from this image (guarding against there being fewer than desired)
     bg_rois_per_this_image = rois_per_image - fg_rois_per_this_image
     bg_rois_per_this_image = np.minimum(bg_rois_per_this_image, bg_indexes.size)
@@ -302,8 +302,8 @@ def sample_rois_fpn(rois, assign_levels, fg_rois_per_image, rois_per_image, num_
     if len(bg_indexes) > bg_rois_per_this_image:
         bg_indexes = npr.choice(bg_indexes, size=bg_rois_per_this_image, replace=False)
     if DEBUG:
-        print 'fg num:', len(fg_indexes)
-        print 'bg num:', len(bg_indexes)
+        print ('fg num:', len(fg_indexes))
+        print ('bg num:', len(bg_indexes))
 
     # bg rois statistics
     if DEBUG:
@@ -311,7 +311,7 @@ def sample_rois_fpn(rois, assign_levels, fg_rois_per_image, rois_per_image, num_
         bg_rois_on_levels = dict()
         for i, s in enumerate(config.RCNN_FEAT_STRIDE):
             bg_rois_on_levels.update({'stride%s'%s:len(np.where(bg_assign == s)[0])})
-        print bg_rois_on_levels
+        print (bg_rois_on_levels)
 
     # indexes selected
     keep_indexes = np.append(fg_indexes, bg_indexes)

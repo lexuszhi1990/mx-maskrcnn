@@ -94,7 +94,7 @@ def parse_args():
 def main():
     args = parse_args()
     ctx = mx.gpu(args.gpu)
-    print args
+    print(args)
     demo_maskrcnn(args.network, args.dataset, args.image_set, args.root_path, args.dataset_path, args.result_path,
               ctx, args.prefix, args.epoch,
               args.vis, args.shuffle, args.has_rpn, args.proposal, args.thresh)

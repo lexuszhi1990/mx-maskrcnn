@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 
 def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
                    vis= True, has_rpn = True, thresh = 0.001):
-    
+
     assert has_rpn,"Only has_rpn==True has been supported."
     sym = eval('get_' + network + '_mask_test')(num_classes=config.NUM_CLASSES, num_anchors=config.NUM_ANCHORS)
     arg_params, aux_params = load_param(prefix, epoch, convert=True, ctx=ctx, process=True)
-    
+
     max_image_shape = (1,3,1024,1024)
     max_data_shapes = [("data",max_image_shape),("im_info",(1,3))]
     mod = MutableModule(symbol = sym, data_names = ["data","im_info"], label_names= None,
@@ -29,13 +29,13 @@ def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
     class OneDataBatch():
         def __init__(self,img):
             im_info = mx.nd.array([[img.shape[0],img.shape[1],1.0]])
-            img = np.transpose(img,(2,0,1)) 
+            img = np.transpose(img,(2,0,1))
             img = img[np.newaxis,(2,1,0)]
             self.data = [mx.nd.array(img),im_info]
             self.label = None
             self.provide_label = None
             self.provide_data = [("data",(1,3,img.shape[2],img.shape[3])),("im_info",(1,3))]
-    
+
     img_ori = cv2.imread(img_path)
     batch = OneDataBatch(img_ori)
     mod.forward(batch, False)
@@ -57,10 +57,10 @@ def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
 
     CLASSES  = ('__background__', 'person', 'rider', 'car', 'truck', 'bus', 'train', 'mcycle', 'bicycle')
 
-    all_boxes = [[[] for _ in xrange(1)]
-                 for _ in xrange(len(CLASSES))]
-    all_masks = [[[] for _ in xrange(1)]
-                 for _ in xrange(len(CLASSES))]
+    all_boxes = [[[] for _ in range(1)]
+                 for _ in range(len(CLASSES))]
+    all_masks = [[[] for _ in range(1)]
+                 for _ in range(len(CLASSES))]
     label = np.argmax(scores, axis=1)
     label = label[:, np.newaxis]
 
@@ -123,7 +123,7 @@ def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
 def parse_args():
     parser = argparse.ArgumentParser(description='Test a Fast R-CNN network')
     # general
-    parser.add_argument('--network', help='network name', default=default.network, type=str)    
+    parser.add_argument('--network', help='network name', default=default.network, type=str)
     parser.add_argument('--dataset', help='dataset name', default=default.dataset, type=str)
     args, rest = parser.parse_known_args()
     generate_config(args.network, args.dataset)
@@ -135,8 +135,8 @@ def parse_args():
     parser.add_argument('--vis', help='turn on visualization', action='store_true')
     parser.add_argument('--thresh', help='valid detection threshold', default=1e-3, type=float)
     parser.add_argument('--image_name', help='image file path',type=str)
-    
-    
+
+
     args = parser.parse_args()
 
     return args
@@ -146,12 +146,12 @@ def main():
     args = parse_args()
     ctx = mx.gpu(args.gpu)
     print args
-    demo_maskrcnn(network = args.network, 
+    demo_maskrcnn(network = args.network,
                   ctx = ctx,
                   prefix = args.prefix,
-                  epoch = args.epoch, 
+                  epoch = args.epoch,
                   img_path = args.image_name,
-                  vis= args.vis, 
+                  vis= args.vis,
                   has_rpn = True,
                   thresh = args.thresh)
 

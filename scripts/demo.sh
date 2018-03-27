@@ -13,7 +13,7 @@ TEST_SET=val
 
 mkdir -p ${RESULT_PATH}
 
-python demo_mask.py \
+python3.6 demo_mask.py \
     --network resnet_fpn \
     --dataset ${DATASET} \
     --image_set ${TEST_SET} \
