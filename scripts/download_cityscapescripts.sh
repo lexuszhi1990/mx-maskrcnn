@@ -7,7 +7,7 @@ mkdir -p results/pred/
 
 cd cityscapesScripts
 
-python setup.py build_ext --inplace
+python3.6 setup.py build_ext --inplace
 
 mv cityscapesscripts ../
 
