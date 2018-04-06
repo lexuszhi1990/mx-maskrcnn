@@ -88,7 +88,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    print 'Called with argument:', args
+    print('Called with argument:', args)
     ctx = mx.gpu(args.gpu)
     test_rpn(args.network, args.dataset, args.image_set, args.root_path, args.dataset_path,
              ctx, args.prefix, args.epoch,
