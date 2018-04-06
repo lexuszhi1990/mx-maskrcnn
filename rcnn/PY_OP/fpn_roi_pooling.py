@@ -42,7 +42,7 @@ class FPNROIPoolOperator(mx.operator.CustomOp):
         rois_area = rois_area.asnumpy()
 
         if DEBUG:
-            print 'rois_area shape:', rois_area.shape
+            print('rois_area shape:', rois_area.shape)
 
         feat_dict = {}
         for stride in self._feat_stride_fpn:
@@ -62,15 +62,15 @@ class FPNROIPoolOperator(mx.operator.CustomOp):
             thd = area_threshold['stride%s'%s]
             index = np.where(np.logical_and(thd[1] <= rois_area, rois_area < thd[0]))[0]
             if DEBUG:
-                print "stride: %s, num rois: %d" % (s, len(index))
+                print("stride: %s, num rois: %d" % (s, len(index)))
 
             if len(index) > 0:
                 index = mx.nd.array(index, rois.context)
                 if DEBUG:
-                    print 'Context:'
-                    print 'feat:', feat_dict['stride%s'%s].context
-                    print 'rois:', rois.context
-                    print 'index:', index.context
+                    print('Context:')
+                    print('feat:', feat_dict['stride%s'%s].context)
+                    print('rois:', rois.context)
+                    print('index:', index.context)
                 _rois = mx.nd.take(rois, index)
                 if config.ROIALIGN:
                     roi_pool = mx.nd.ROIAlign(feat_dict['stride%s' % s], _rois, (self._pool_h, self._pool_w), 1.0 / float(s))

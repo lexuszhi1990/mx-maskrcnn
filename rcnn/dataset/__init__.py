@@ -1,2 +1,2 @@
-from imdb import IMDB
-from cityscape import Cityscape
+from .imdb import IMDB
+from .cityscape import Cityscape

@@ -132,8 +132,8 @@ def assign_anchor_fpn(feat_shape, gt_boxes, im_info, feat_strides=[64,32,16,8,4]
                                (all_anchors[:, 2] < im_info[1] + allowed_border) &
                                (all_anchors[:, 3] < im_info[0] + allowed_border))[0]
         if DEBUG:
-            print 'total_anchors', total_anchors
-            print 'inds_inside', len(inds_inside)
+            print ('total_anchors', total_anchors)
+            print ('inds_inside', len(inds_inside))
 
         # keep only inside anchors
         anchors = all_anchors[inds_inside, :]
@@ -209,8 +209,8 @@ def assign_anchor_fpn(feat_shape, gt_boxes, im_info, feat_strides=[64,32,16,8,4]
         _counts = np.sum(labels == 1)
         means = _sums / (_counts + 1e-14)
         stds = np.sqrt(_squared_sums / _counts - means ** 2)
-        print 'means', means
-        print 'stdevs', stds
+        print ('means', means)
+        print ('stdevs', stds)
     # map up to original set of anchors
     labels = _unmap(labels, total_anchors, inds_inside, fill=-1)
     bbox_targets = _unmap(bbox_targets, total_anchors, inds_inside, fill=0)
@@ -218,14 +218,14 @@ def assign_anchor_fpn(feat_shape, gt_boxes, im_info, feat_strides=[64,32,16,8,4]
 
     if DEBUG:
         if gt_boxes.size > 0:
-            print 'rpn: max max_overlaps', np.max(max_overlaps)
-        print 'rpn: num_positives', np.sum(labels == 1)
-        print 'rpn: num_negatives', np.sum(labels == 0)
+            print ('rpn: max max_overlaps', np.max(max_overlaps))
+        print ('rpn: num_positives', np.sum(labels == 1))
+        print ('rpn: num_negatives', np.sum(labels == 0))
         _fg_sum = np.sum(labels == 1)
         _bg_sum = np.sum(labels == 0)
         _count = 1
-        print 'rpn: num_positive avg', _fg_sum / _count
-        print 'rpn: num_negative avg', _bg_sum / _count
+        print ('rpn: num_positive avg', _fg_sum / _count)
+        print ('rpn: num_negative avg', _bg_sum / _count)
 
     # resahpe
     label_list = list()

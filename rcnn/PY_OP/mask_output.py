@@ -14,8 +14,8 @@ class MaskOutputOperator(mx.operator.CustomOp):
 
     def forward(self, is_train, req, in_data, out_data, aux):
         if DEBUG:
-            print is_train
-            print len(in_data)
+            print (is_train)
+            print (len(in_data))
 
         self.assign(out_data[0], req[0], in_data[0])
 

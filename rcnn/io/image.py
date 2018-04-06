@@ -161,6 +161,6 @@ def tensor_vstack(tensor_list, pad=0):
         for ind, tensor in enumerate(tensor_list):
             all_tensor[ind*islice:(ind+1)*islice, :tensor.shape[1], :tensor.shape[2], :tensor.shape[3], :tensor.shape[4]] = tensor
     else:
-        print tensor_list[0].shape
+        print (tensor_list[0].shape)
         raise Exception('Sorry, unimplemented.')
     return all_tensor

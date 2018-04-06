@@ -180,7 +180,8 @@ def get_resnet_fpn_mask_test(num_classes=config.NUM_CLASSES, num_anchors=config.
         rpn_cls_prob_dict.update({'cls_prob_stride%s'%stride:rpn_cls_prob_reshape})
         rpn_bbox_pred_dict.update({'bbox_pred_stride%s'%stride:rpn_bbox_pred})
 
-    args_dict = dict(rpn_cls_prob_dict.items()+rpn_bbox_pred_dict.items())
+    args_dict = rpn_cls_prob_dict.copy()
+    args_dict.update(rpn_bbox_pred_dict)
     aux_dict = {'im_info':im_info,'name':'rois',
                 'op_type':'proposal_fpn','output_score':False,
                 'feat_stride':config.RPN_FEAT_STRIDE,'scales':tuple(config.ANCHOR_SCALES),
@@ -190,7 +191,8 @@ def get_resnet_fpn_mask_test(num_classes=config.NUM_CLASSES, num_anchors=config.
                 'rpn_min_size':config.TEST.RPN_MIN_SIZE,
                 'threshold':config.TEST.RPN_NMS_THRESH}
     # Proposal
-    rois = mx.symbol.Custom(**dict(args_dict.items()+aux_dict.items()))
+    # rois = mx.symbol.Custom(**dict(args_dict.items()+aux_dict.items()))
+    rois = mx.symbol.Custom(**dict({**args_dict, **aux_dict}))
 
     # FPN roi pooling
     args_dict={}

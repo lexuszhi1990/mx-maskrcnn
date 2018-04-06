@@ -10,7 +10,7 @@ basic format [image_index]
 """
 
 import os
-import cPickle
+import _pickle as cPickle
 import numpy as np
 from ..processing.bbox_transform import bbox_overlaps
 import pdb
@@ -69,7 +69,7 @@ class IMDB(object):
             rpn_file = os.path.join(self.root_path, 'rpn_data', self.name + '_full_rpn.pkl')
         else:
             rpn_file = os.path.join(self.root_path, 'rpn_data', self.name + '_rpn.pkl')
-        print 'loading {}'.format(rpn_file)
+        print ('loading {}'.format(rpn_file))
         assert os.path.exists(rpn_file), 'rpn data not found at {}'.format(rpn_file)
         with open(rpn_file, 'rb') as f:
             box_list = cPickle.load(f)
@@ -92,7 +92,7 @@ class IMDB(object):
         :return: roidb of rpn
         """
         if append_gt:
-            print 'appending ground truth annotations'
+            print ('appending ground truth annotations')
             rpn_roidb = self.load_rpn_roidb(gt_roidb)
             roidb = IMDB.merge_roidbs(gt_roidb, rpn_roidb)
         else:
@@ -155,7 +155,7 @@ class IMDB(object):
         :param roidb: [image_index]['boxes', 'gt_classes', 'gt_overlaps', 'flipped']
         :return: roidb: [image_index]['boxes', 'gt_classes', 'gt_overlaps', 'flipped']
         """
-        print 'append flipped images to roidb'
+        print ('append flipped images to roidb')
         assert self.num_images == len(roidb)
         for i in range(self.num_images):
             roi_rec = roidb[i]
@@ -212,8 +212,8 @@ class IMDB(object):
             area_counts.append(area_count)
         total_counts = float(sum(area_counts))
         for area_name, area_count in zip(area_names[1:], area_counts):
-            print 'percentage of', area_name, area_count / total_counts
-        print 'average number of proposal', total_counts / self.num_images
+            print ('percentage of', area_name, area_count / total_counts)
+        print ('average number of proposal', total_counts / self.num_images)
         for area_name, area_range in zip(area_names, area_ranges):
             gt_overlaps = np.zeros(0)
             num_pos = 0
@@ -272,10 +272,10 @@ class IMDB(object):
                 recalls[i] = (gt_overlaps >= t).sum() / float(num_pos)
             ar = recalls.mean()
 
-            # print results
-            print 'average recall for {}: {:.3f}'.format(area_name, ar)
+            # print (results)
+            print ('average recall for {}: {:.3f}'.format(area_name, ar))
             for threshold, recall in zip(thresholds, recalls):
-                print 'recall @{:.2f}: {:.3f}'.format(threshold, recall)
+                print ('recall @{:.2f}: {:.3f}'.format(threshold, recall))
 
     @staticmethod
     def merge_roidbs(a, b):
