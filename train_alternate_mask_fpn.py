@@ -104,7 +104,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    print 'Called with argument:', args
+    print('Called with argument:', args)
     ctx = [mx.gpu(int(i)) for i in args.gpus.split(',')]
     alternate_train(args, ctx, args.pretrained, args.pretrained_epoch,
                     args.rpn_epoch, args.rpn_lr, args.rpn_lr_step,

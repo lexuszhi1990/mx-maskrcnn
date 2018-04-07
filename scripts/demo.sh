@@ -1,10 +1,10 @@
 export MXNET_CUDNN_AUTOTUNE_DEFAULT=0
 export PYTHONUNBUFFERED=1
 export MXNET_ENABLE_GPU_P2P=0
-export PYTHONPATH=${PYTHONPATH}:incubator-mxnet/python/
+# export PYTHONPATH=${PYTHONPATH}:incubator-mxnet/python/
 
-MODEL_PATH=model/
-RESULT_PATH=data/cityscape/results/
+MODEL_PATH=/mnt/models
+RESULT_PATH=./
 
 PREFIX=${MODEL_PATH}final
 DATASET=Cityscape

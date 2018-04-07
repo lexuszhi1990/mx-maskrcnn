@@ -4,8 +4,8 @@ import numpy as np
 import datetime
 import time
 from collections import defaultdict
-import mask as maskUtils
 import copy
+from . import mask as maskUtils
 
 class COCOeval:
     # Interface for evaluating detection on the Microsoft COCO dataset.

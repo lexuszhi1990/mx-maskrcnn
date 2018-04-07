@@ -4,7 +4,7 @@ import pprint
 import mxnet as mx
 import numpy as np
 import os.path as osp
-import cPickle as pkl
+import pickle as pkl
 
 from ..config import config, default, generate_config
 from ..symbol import *
@@ -34,7 +34,6 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
     batch_size = len(ctx)
     input_batch_size = config.TRAIN.BATCH_IMAGES * batch_size
 
-    # logging.info(config)
     pprint.pprint(config)
 
     roidb_file = root_path + '/cache/' + dataset + '_roidb_with_mask.pkl'
@@ -46,13 +45,13 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
         std_file = root_path + '/cache/' + dataset + '_roidb_std_' + maskrcnn_stage + '.pkl'
 
     if osp.exists(roidb_file) and osp.exists(mean_file) and osp.exists(std_file):
-        logging.info('Load ' + roidb_file)
+        print('Load ' + roidb_file)
         with open(roidb_file, 'r') as f:
             roidb = pkl.load(f)
-        logging.info('Load ' + mean_file)
+        print('Load ' + mean_file)
         with open(mean_file, 'r') as f:
             means = pkl.load(f)
-        logging.info('Load ' + std_file)
+        print('Load ' + std_file)
         with open(std_file, 'r') as f:
             stds = pkl.load(f)
     else:
@@ -77,7 +76,7 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
             num = len(roidb)
             filtered_roidb = [entry for entry in roidb if is_valid(entry)]
             num_after = len(filtered_roidb)
-            logging.info('filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after))
+            print('filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after))
 
             return filtered_roidb
 
@@ -110,7 +109,7 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
     arg_shape_dict = dict(zip(sym.list_arguments(), arg_shape))
     out_shape_dict = zip(sym.list_outputs(), out_shape)
     aux_shape_dict = dict(zip(sym.list_auxiliary_states(), aux_shape))
-    logging.info('output shape')
+    print('output shape')
     pprint.pprint(out_shape_dict)
 
     # load and initialize params
@@ -125,7 +124,7 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
             if k in data_shape_dict:
                 continue
             if k not in arg_params:
-                logging.info('init', k)
+                print('init', k)
                 arg_params[k] = mx.nd.zeros(shape=arg_shape_dict[k])
                 init_internal(k, arg_params[k])
                 if k in ['rcnn_fc_bbox_weight', 'bbox_pred_weight']:
@@ -139,7 +138,7 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
 
         for k in sym.list_auxiliary_states():
             if k not in aux_params:
-                logging.info('init', k)
+                print('init', k)
                 aux_params[k] = mx.nd.zeros(shape=aux_shape_dict[k])
                 init(k, aux_params[k])
 
@@ -188,7 +187,7 @@ def train_maskrcnn(network, dataset, image_set, root_path, dataset_path,
     lr_epoch_diff = [epoch - begin_epoch for epoch in lr_epoch if epoch > begin_epoch]
     lr = base_lr * (lr_factor ** (len(lr_epoch) - len(lr_epoch_diff)))
     lr_iters = [int(epoch * len(roidb) / batch_size) for epoch in lr_epoch_diff]
-    logging.info('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters)
+    print('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters)
     lr_scheduler = mx.lr_scheduler.MultiFactorScheduler(lr_iters, lr_factor)
     # optimizer
     optimizer_params = {'momentum': 0.9,
