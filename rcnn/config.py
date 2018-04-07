@@ -167,14 +167,14 @@ dataset.coco.test_image_set = 'val2017'
 dataset.coco.root_path = '/mnt/data'
 dataset.coco.dataset_path = '/mnt/data/coco'
 dataset.coco.NUM_CLASSES = 81
-dataset.coco.CLASS_ID = [i for range(dataset.coco.NUM_CLASSES)]
+dataset.coco.CLASS_ID = [i for i in range(dataset.coco.NUM_CLASSES)]
 
 dataset.fashionai_kp = edict()
 dataset.fashionai_kp.dataset = 'fashionai_kp'
 dataset.fashionai_kp.image_set = 'train'
 dataset.fashionai_kp.test_image_set = 'val'
 dataset.fashionai_kp.NUM_CLASSES = 6
-dataset.fashionai_kp.CLASS_ID = [i for range(dataset.fashionai_kp.NUM_CLASSES)]
+dataset.fashionai_kp.CLASS_ID = [i for i in range(dataset.fashionai_kp.NUM_CLASSES)]
 # default config
 # dataset.fashionai_kp.SCALES = [(312, 512)]  # first is scale (the shorter side); second is max size
 # dataset.fashionai_kp.ANCHOR_SCALES = (8, 16, 32)
