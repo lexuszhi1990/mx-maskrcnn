@@ -433,23 +433,24 @@ def get_resnet_fpn_maskrcnn(num_classes=config.NUM_CLASSES):
 
     # reshape input
     for s in rcnn_feat_stride:
-        rois['rois_stride%s' % s] = mx.symbol.Reshape(data=rois['rois_stride%s' % s],
-                                                      shape=(-1, 5),
-                                                      name='rois_stride%s_reshape' % s)
+        rois['rois_stride%s' % s] = mx.symbol.Reshape(
+            data=rois['rois_stride%s' % s],
+            shape=(-1, 5),
+            name='rois_stride%s_reshape' % s)
 
         label['label_stride%s' % s] = mx.symbol.Reshape(data=label['label_stride%s' % s], shape=(-1,), name='label_stride%s_reshape'%s)
         bbox_target['bbox_target_stride%s' % s] = mx.symbol.Reshape(data=bbox_target['bbox_target_stride%s' % s],
-                                                                    shape=(-1, 4 * num_classes),
-                                                                    name='bbox_target_stride%s_reshape'%s)
+            hape=(-1, 4 * num_classes),
+            name='bbox_target_stride%s_reshape'%s)
         bbox_weight['bbox_weight_stride%s' % s] = mx.symbol.Reshape(data=bbox_weight['bbox_weight_stride%s' % s],
-                                                                    shape=(-1, 4 * num_classes),
-                                                                    name='bbox_weight_stride%s_reshape'%s)
+             shape=(-1, 4 * num_classes),
+             name='bbox_weight_stride%s_reshape'%s)
         mask_target['mask_target_stride%s' % s] = mx.symbol.Reshape(data=mask_target['mask_target_stride%s' % s],
-                                                                    shape=(-1, num_classes, 28, 28),
-                                                                    name='mask_target_stride%s_reshape'%s)
+            shape=(-1, num_classes, 28, 28),
+            name='mask_target_stride%s_reshape'%s)
         mask_weight['mask_weight_stride%s' % s] = mx.symbol.Reshape(data=mask_weight['mask_weight_stride%s' % s],
-                                                                    shape=(-1, num_classes, 1, 1),
-                                                                    name='mask_weight_stride%s_reshape'%s)
+            shape=(-1, num_classes, 1, 1),
+            name='mask_weight_stride%s_reshape'%s)
 
     label_list = []
     bbox_target_list = []
