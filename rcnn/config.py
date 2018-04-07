@@ -167,19 +167,38 @@ dataset.coco.test_image_set = 'val2017'
 dataset.coco.root_path = '/mnt/data'
 dataset.coco.dataset_path = '/mnt/data/coco'
 dataset.coco.NUM_CLASSES = 81
+dataset.coco.CLASS_ID = [i for range(dataset.coco.NUM_CLASSES)]
 
-dataset.Cityscape = edict()
-dataset.Cityscape.image_set = 'train'
-dataset.Cityscape.test_image_set = 'val'
-dataset.Cityscape.root_path = 'data'
-dataset.Cityscape.dataset_path = 'data/cityscape'
-dataset.Cityscape.NUM_CLASSES = 9
-dataset.Cityscape.SCALES = [(1024, 2048)]
-dataset.Cityscape.ANCHOR_SCALES = (8,)
-dataset.Cityscape.ANCHOR_RATIOS = (0.5, 1, 2)
-dataset.Cityscape.NUM_ANCHORS = len(dataset.Cityscape.ANCHOR_SCALES) * len(dataset.Cityscape.ANCHOR_RATIOS)
-dataset.Cityscape.CLASS_ID = [0, 24, 25, 26, 27, 28, 31, 32, 33]
-
+dataset.fashionai_kp = edict()
+dataset.fashionai_kp.dataset = 'fashionai_kp'
+dataset.fashionai_kp.image_set = 'train'
+dataset.fashionai_kp.test_image_set = 'val'
+dataset.fashionai_kp.NUM_CLASSES = 6
+dataset.fashionai_kp.CLASS_ID = [i for range(dataset.fashionai_kp.NUM_CLASSES)]
+# default config
+# dataset.fashionai_kp.SCALES = [(312, 512)]  # first is scale (the shorter side); second is max size
+# dataset.fashionai_kp.ANCHOR_SCALES = (8, 16, 32)
+# dataset.fashionai_kp.ANCHOR_RATIOS = (0.5, 1, 2)
+# dataset.fashionai_kp.NUM_ANCHORS = len(dataset.fashionai_kp.ANCHOR_SCALES) * len(dataset.fashionai_kp.ANCHOR_RATIOS)
+# training config list
+dataset.fashionai_kp.vis = True
+dataset.fashionai_kp.base_lr = 0.005
+dataset.fashionai_kp.root_path = '/mnt/data/fai_kp/build'
+dataset.fashionai_kp.dataset_path = '/mnt/data/fai_kp'
+dataset.fashionai_kp.frequent = 20
+dataset.fashionai_kp.kvstore = 'device'
+dataset.fashionai_kp.e2e_prefix = '/mnt/models/fai'
+dataset.fashionai_kp.e2e_epoch = 10
+dataset.fashionai_kp.e2e_lr = 0.001
+dataset.fashionai_kp.e2e_lr_step = '7'
+dataset.fashionai_kp.rpn_prefix = '/mnt/models/fai-rpn'
+dataset.fashionai_kp.rpn_epoch = 8
+dataset.fashionai_kp.rpn_lr = 0.001
+dataset.fashionai_kp.rpn_lr_step = '6'
+dataset.fashionai_kp.rcnn_prefix = '/mnt/models/fai-rcnn'
+dataset.fashionai_kp.rcnn_epoch = 24
+dataset.fashionai_kp.rcnn_lr = 0.001
+dataset.fashionai_kp.rcnn_lr_step = '20'
 
 def generate_config(_network, _dataset):
     for k, v in network[_network].items():
