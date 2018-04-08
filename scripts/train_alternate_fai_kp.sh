@@ -18,5 +18,5 @@ python3.6 train_alternate_mask_fpn.py \
     --pretrained /mnt/models/final \
     --prefix ${TRAIN_DIR} \
     --pretrained_epoch 0 \
-    --gpu 4,5,6 |& tee -a ${TRAIN_DIR}/train.log
+    --gpu 7 |& tee -a ${TRAIN_DIR}/train-v1.log
 

@@ -28,3 +28,7 @@ bash scripts/train_alternate_fai_kp.sh
 apt-get install -y python3.6-dev
 pip3.6 install opencv-python easydict cython
 
+
+
+/data/david/fai_kp/base_dataset/build/v1/rpn1-0005.params
+/mnt/data/fai_kp/build/v1/rpn1-0005.params

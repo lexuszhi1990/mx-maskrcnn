@@ -397,7 +397,7 @@ def get_resnet_fpn_rpn_test(num_anchors=config.NUM_ANCHORS):
 
         rpn_cls_prob_dict.update({'cls_prob_stride%s' % stride: rpn_cls_prob_reshape})
         rpn_bbox_pred_dict.update({'bbox_pred_stride%s' % stride: rpn_bbox_pred})
-    args_dict = dict(rpn_cls_prob_dict.items()+rpn_bbox_pred_dict.items())
+    args_dict = {**rpn_cls_prob_dict, **rpn_bbox_pred_dict}
     aux_dict = {'im_info':im_info,'name':'rois',
                 'op_type':'proposal_fpn','output_score':True,
                 'feat_stride':config.RPN_FEAT_STRIDE,'scales':tuple(config.ANCHOR_SCALES),
@@ -407,7 +407,8 @@ def get_resnet_fpn_rpn_test(num_anchors=config.NUM_ANCHORS):
                 'rpn_min_size':config.TEST.RPN_MIN_SIZE,
                 'threshold':config.TEST.RPN_NMS_THRESH}
     # Proposal
-    group = mx.symbol.Custom(**dict(args_dict.items()+aux_dict.items()))
+    # group = mx.symbol.Custom(**dict(args_dict.items()+aux_dict.items()))
+    group = mx.symbol.Custom(**{**args_dict, **aux_dict})
 
     # rois = group[0]
     # score = group[1]

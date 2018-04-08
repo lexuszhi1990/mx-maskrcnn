@@ -15,8 +15,8 @@ python3.6 train_alternate_mask_fpn.py \
     --dataset ${DATASET} \
     --image_set ${SET} \
     --root_path ${TRAIN_DIR} \
-    --pretrained /mnt/models/final \
     --prefix ${TRAIN_DIR} \
+    --pretrained /mnt/models/final \
     --pretrained_epoch 0 \
     --gpu 0,1,2,3 |& tee -a ${TRAIN_DIR}/train.log
 
