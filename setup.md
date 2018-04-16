@@ -1,7 +1,7 @@
 ### setup on 177
 
 GPU:
-docker run --network host --rm -it -v /home/fulingzhi/workspace/mx-maskrcnn:/app -v /mnt/gf_mnt/datasets/cityscape:/mnt/data/cityscape mxnet-cu90/python:1.2.0-roialign
+docker run --network host --rm -it -v /home/fulingzhi/workspace/mx-maskrcnn:/app -v /mnt/gf_mnt/datasets/cityscape:/mnt/data/cityscape -v /mnt/gf_mnt/datasets/cocoapi:/mnt/data/coco -v /mnt/gf_mnt/models:/mnt/models mxnet-cu90/python:1.2.0-roialign
 
 CPU:
 docker run --network host --rm -it -v /home/fulingzhi/workspace/mx-maskrcnn:/app -v /mnt/gf_mnt/datasets/cityscape:/mnt/data/cityscape mxnet/python:1.2.0-roialign
@@ -25,8 +25,9 @@ bash scripts/train_alternate_fai_kp.sh
 
 ### packages
 
-apt-get install -y python3.6-dev
+apt-get install -y python3.6-dev python3-tk
 pip3.6 install opencv-python easydict cython
+pip3.6 install matplotlib
 
 
 
