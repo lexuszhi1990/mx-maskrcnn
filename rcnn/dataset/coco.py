@@ -91,7 +91,7 @@ class coco(IMDB):
             logger.info('%s gt roidb loaded from %s' % (self.name, cache_file))
             return roidb
 
-        gt_roidb = [self._load_coco_annotation(index) for index in self.image_set_index]
+        gt_roidb = [self._load_coco_annotation(index) for i,index in enumerate(self.image_set_index) if i < 1000]
         with open(cache_file, 'wb') as fid:
             pickle.dump(gt_roidb, fid, pickle.HIGHEST_PROTOCOL)
         logger.info('%s wrote gt roidb to %s' % (self.name, cache_file))
@@ -133,6 +133,8 @@ class coco(IMDB):
         boxes = np.zeros((num_objs, 4), dtype=np.uint16)
         gt_classes = np.zeros((num_objs), dtype=np.int32)
         overlaps = np.zeros((num_objs, self.num_classes), dtype=np.float32)
+        segms = []
+        seg_areas = np.zeros((num_objs), dtype=np.float32)
 
         for ix, obj in enumerate(objs):
             cls = self._coco_ind_to_class_ind[obj['category_id']]
@@ -142,7 +144,14 @@ class coco(IMDB):
                 overlaps[ix, :] = -1.0
             else:
                 overlaps[ix, cls] = 1.0
+            seg_areas[ix] = obj['area']
+            segms.append(self.coco.annToMask(obj))
 
+        # Boxes:
+        #       [[359, 146, 470, 358],
+        #        [339,  22, 492, 321],
+        #        [471, 172, 506, 219],
+        #        [486, 183, 515, 217]]
         roi_rec = {'image': self.image_path_from_index(index),
                    'height': height,
                    'width': width,
@@ -151,7 +160,12 @@ class coco(IMDB):
                    'gt_overlaps': overlaps,
                    'max_classes': overlaps.argmax(axis=1),
                    'max_overlaps': overlaps.max(axis=1),
-                   'flipped': False}
+                   'ins_id' : annIds,
+                   'ins_area' : seg_areas,
+                   'ins_seg' : segms,
+                   'flipped': False
+                   }
+        logger.info(roi_rec['image'])
         return roi_rec
 
     def evaluate_detections(self, detections):
