@@ -16,7 +16,7 @@ python3.6 train_alternate_mask_fpn.py \
     --image_set ${SET} \
     --root_path ${TRAIN_DIR} \
     --prefix ${TRAIN_DIR} \
-    --pretrained ./models/final \
+    --pretrained ./model/final \
     --pretrained_epoch 0 \
     --gpu 0 |& tee -a ${TRAIN_DIR}/train.log
 
