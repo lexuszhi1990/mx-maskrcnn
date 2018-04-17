@@ -15,6 +15,8 @@ docker run --network host --rm -it -v /home/david/fashionAI/mx-maskrcnn:/app-dev
 
 docker run --network host --rm -it -v /home/david/fashionAI/mx-maskrcnn:/app-dev -v /data/david/cocoapi:/mnt/data/coco -v /data/david/fai_kp/base_dataset:/mnt/data/fai_kp -v /data/david/models/fai-mask-rcnn:/mnt/models -v /data/david/logdir/fai-mask-rcnn:/mnt/logs mxnet-cu90/python:1.2.0-roialign
 
+docker run --network host --rm -it -v /home/david/fashionAI/mx-maskrcnn:/app-dev -v /data/david/cocoapi:/mnt/data/coco -v /data/david/models/mask-rcnn:/mnt/models -v /data/david/logdir/mask-rcnn:/mnt/logs mxnet-cu90/python:1.2.0-roialign
+
 
 demo:
 bash scripts/demo.sh

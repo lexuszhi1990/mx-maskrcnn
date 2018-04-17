@@ -3,14 +3,14 @@ export PYTHONUNBUFFERED=1
 export MXNET_ENABLE_GPU_P2P=0
 # export PYTHONPATH=${PYTHONPATH}:incubator-mxnet/python/
 
-TRAIN_DIR=/mnt/models/mx-maskrcnn/v1
+TRAIN_DIR=/mnt/models/v3
 DATASET=coco
 SET=train2017
 TEST_SET=val2017
 mkdir -p ${TRAIN_DIR}
 
 # Train
-python3.6 train_alternate_mask_fpn.py \
+CUDA_VISIBLE_DEVICES=7 python3.6 train_alternate_mask_fpn.py \
     --network resnet_fpn \
     --dataset ${DATASET} \
     --image_set ${SET} \

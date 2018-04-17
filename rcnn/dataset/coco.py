@@ -91,14 +91,14 @@ class coco(IMDB):
             logger.info('%s gt roidb loaded from %s' % (self.name, cache_file))
             return roidb
 
-        gt_roidb = [self._load_coco_annotation(index) for i,index in enumerate(self.image_set_index) if i < 1000]
+        gt_roidb = [self._load_coco_annotation(index, num) for num,index in enumerate(self.image_set_index)]
         with open(cache_file, 'wb') as fid:
             pickle.dump(gt_roidb, fid, pickle.HIGHEST_PROTOCOL)
         logger.info('%s wrote gt roidb to %s' % (self.name, cache_file))
 
         return gt_roidb
 
-    def _load_coco_annotation(self, index):
+    def _load_coco_annotation(self, index, num):
         """
         coco ann: [u'segmentation', u'area', u'iscrowd', u'image_id', u'bbox', u'category_id', u'id']
         iscrowd:
@@ -145,7 +145,8 @@ class coco(IMDB):
             else:
                 overlaps[ix, cls] = 1.0
             seg_areas[ix] = obj['area']
-            segms.append(self.coco.annToMask(obj))
+            # segms.append(self.coco.annToMask(obj))
+            segms.append(obj['segmentation'])
 
         # Boxes:
         #       [[359, 146, 470, 358],
@@ -166,6 +167,7 @@ class coco(IMDB):
                    'flipped': False
                    }
         logger.info(roi_rec['image'])
+        logger.info("[%d/%s] %s"%(num, len(self.image_set_index), filename))
         return roi_rec
 
     def evaluate_detections(self, detections):
