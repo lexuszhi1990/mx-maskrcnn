@@ -166,8 +166,7 @@ class coco(IMDB):
                    'ins_seg' : segms,
                    'flipped': False
                    }
-        logger.info(roi_rec['image'])
-        logger.info("[%d/%s] %s"%(num, len(self.image_set_index), filename))
+        logger.info("[%d/%s] %s"%(num, len(self.image_set_index), roi_rec['image']))
         return roi_rec
 
     def evaluate_detections(self, detections):

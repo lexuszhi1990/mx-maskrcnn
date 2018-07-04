@@ -104,6 +104,7 @@ def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
             score = dets[i, -1]
             bbox = bbox.astype(int).tolist()
             cv2.rectangle(im, (bbox[0], bbox[1]), (bbox[2], bbox[3]), color=color, thickness=2)
+            print('%s %.3f' % (class_names[j], score))
             cv2.putText(im, '%s %.3f' % (class_names[j], score), (bbox[0], bbox[1] + 10),
                         color=color_white, fontFace=cv2.FONT_HERSHEY_COMPLEX, fontScale=0.5)
             mask = masks[i, :, :]
