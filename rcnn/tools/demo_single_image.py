@@ -122,7 +122,10 @@ def demo_maskrcnn(network, ctx, prefix, epoch,img_path,
     if vis:
         plt.show()
     else:
-        plt.savefig("figures/test_result.jpg")
+        saved_path = "figures/test_result_dress.jpg"
+        plt.savefig(saved_path)
+        print("save image at %s" % (saved_path))
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Test a Fast R-CNN network')
     # general
